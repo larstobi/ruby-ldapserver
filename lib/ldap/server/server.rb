@@ -56,10 +56,11 @@ class Server
       end
       if opt[:ssl_ca_path]
         ctx.ca_path = opt[:ssl_ca_path]
-        ctx.verify_mode = 
+      end
+      ctx.verify_mode = OpenSSL::SSL::VERIFY_PEER
+      if opt[:ssl_verify_client_cert]
+        ctx.verify_mode =
           OpenSSL::SSL::VERIFY_PEER|OpenSSL::SSL::VERIFY_FAIL_IF_NO_PEER_CERT
-      else
-        $stderr.puts "Warning: SSL peer certificate won't be verified"
       end
       opt[:ssl_ctx] = ctx
     end
